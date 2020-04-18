@@ -20,13 +20,13 @@ public class DiGraphVertex {
 		out_edge.add(out);
 	}
 	public void addInEdge(DiGraphEdge in) {
-		out_edge.add(in);
+		in_edge.add(in);
 	}
 	public void removeOutEdge(DiGraphEdge out) {
 		out_edge.remove(out);
 	}
 	public void removeInEdge(DiGraphEdge in) {
-		out_edge.remove(in);
+		in_edge.remove(in);
 	}
 	
 }
