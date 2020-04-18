@@ -28,5 +28,7 @@ public class DiGraphVertex {
 	public void removeInEdge(DiGraphEdge in) {
 		in_edge.remove(in);
 	}
+	public LinkedList<DiGraphEdge> getOutEdges() {return out_edge;}
+	public LinkedList<DiGraphEdge> getInEdges() {return in_edge;}
 	
 }
