@@ -6,12 +6,14 @@ public class DiGraph implements DiGraphInterface {
 	LinkedList<Long> graphVert_idNums;
 	LinkedList<Long> graphEdge_idNums;
 	HashMap<String, DiGraphVertex> graph_vertexs;
+	int num_of_edges;
 	// in here go all your data and methods for the graph
 
 	public DiGraph() {
 		graphVert_idNums = new LinkedList<Long>();
 		graphEdge_idNums = new LinkedList<Long>();
 		graph_vertexs = new HashMap<String, DiGraphVertex>();
+		num_of_edges = 0;
 	}
 
 	@Override
@@ -49,19 +51,39 @@ public class DiGraph implements DiGraphInterface {
 		DiGraphEdge edge = new DiGraphEdge(idNum, sLabel, dLabel, weight, eLabel);
 		graph_vertexs.get(sLabel).addOutEdge(edge);
 		graph_vertexs.get(dLabel).addInEdge(edge);
-		return false;
+		num_of_edges++;
+		return true;
 	}
 
 	@Override
 	public boolean delNode(String label) {
+		LinkedList<DiGraphEdge> out = graph_vertexs.get(label).getOutEdges();
+		LinkedList<DiGraphEdge> in = graph_vertexs.get(label).getInEdges();
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean delEdge(String sLabel, String dLabel) {
-		// TODO Auto-generated method stub
-		return false;
+		if(!(graph_vertexs.containsKey(sLabel)) || !(graph_vertexs.containsKey(dLabel))) {
+			return false;
+		}
+		LinkedList<DiGraphEdge> source = graph_vertexs.get(sLabel).getOutEdges();
+		LinkedList<DiGraphEdge> dest = graph_vertexs.get(dLabel).getInEdges();
+		DiGraphEdge del_edge;
+		//For loops checks to see if edge exists and if it does it removes it!
+		for (int i = 0;; i++) {
+			if (dest.contains(source.get(i))) {
+				graph_vertexs.get(sLabel).removeOutEdge(source.get(i));
+				graph_vertexs.get(dLabel).removeInEdge(source.get(i));
+				graphEdge_idNums.remove(source.get(i).getIdNum());
+				num_of_edges--;
+				return true;
+			}
+			if (i >= source.size()) {
+				return false;
+			}
+		}
 	}
 
 	@Override
@@ -71,8 +93,7 @@ public class DiGraph implements DiGraphInterface {
 
 	@Override
 	public long numEdges() {
-		// TODO Auto-generated method stub
-		return 0;
+		return num_of_edges;
 	}
 
 	// rest of your code to implement the various operations
