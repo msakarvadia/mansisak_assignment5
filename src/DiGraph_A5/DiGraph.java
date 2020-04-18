@@ -65,13 +65,12 @@ public class DiGraph implements DiGraphInterface {
 
 	@Override
 	public boolean delEdge(String sLabel, String dLabel) {
-		if(!(graph_vertexs.containsKey(sLabel)) || !(graph_vertexs.containsKey(dLabel))) {
+		if (!(graph_vertexs.containsKey(sLabel)) || !(graph_vertexs.containsKey(dLabel))) {
 			return false;
 		}
 		LinkedList<DiGraphEdge> source = graph_vertexs.get(sLabel).getOutEdges();
 		LinkedList<DiGraphEdge> dest = graph_vertexs.get(dLabel).getInEdges();
-		DiGraphEdge del_edge;
-		//For loops checks to see if edge exists and if it does it removes it!
+		// For loops checks to see if edge exists and if it does it removes it!
 		for (int i = 0;; i++) {
 			if (dest.contains(source.get(i))) {
 				graph_vertexs.get(sLabel).removeOutEdge(source.get(i));
