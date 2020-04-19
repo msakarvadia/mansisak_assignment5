@@ -81,18 +81,17 @@ public class DiGraph implements DiGraphInterface {
 		LinkedList<DiGraphEdge> source = graph_vertexs.get(sLabel).getOutEdges();
 		LinkedList<DiGraphEdge> dest = graph_vertexs.get(dLabel).getInEdges();
 		// For loops checks to see if edge exists and if it does it removes it!
-		for (int i = 0;; i++) {
+		for (int i = 0; i < source.size(); i++) {
+			DiGraphEdge rem = source.get(i);
 			if (dest.contains(source.get(i))) {
-				graph_vertexs.get(sLabel).removeOutEdge(source.get(i));
-				graph_vertexs.get(dLabel).removeInEdge(source.get(i));
-				graphEdge_idNums.remove(source.get(i).getIdNum());
+				graph_vertexs.get(dLabel).removeInEdge(rem);
+				graph_vertexs.get(sLabel).removeOutEdge(rem);
+				graphEdge_idNums.remove(rem.getIdNum());
 				num_of_edges--;
 				return true;
 			}
-			if (i >= source.size()) {
-				return false;
-			}
 		}
+		return false;
 	}
 
 	@Override
