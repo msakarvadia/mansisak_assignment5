@@ -57,10 +57,20 @@ public class DiGraph implements DiGraphInterface {
 
 	@Override
 	public boolean delNode(String label) {
+		if (!(graph_vertexs.containsKey(label))) {
+			return false;
+		}
 		LinkedList<DiGraphEdge> out = graph_vertexs.get(label).getOutEdges();
 		LinkedList<DiGraphEdge> in = graph_vertexs.get(label).getInEdges();
-		// TODO Auto-generated method stub
-		return false;
+		for (int i = 0; i < out.size(); i++) {
+			delEdge(out.get(i).getSLabel(), out.get(i).getDLabel());
+		}
+		for (int i = 0; i < in.size(); i++) {
+			delEdge(in.get(i).getSLabel(), in.get(i).getDLabel());
+		}
+		graphVert_idNums.remove(graph_vertexs.get(label).getIdNum());
+		graph_vertexs.remove(label);
+		return true;
 	}
 
 	@Override
