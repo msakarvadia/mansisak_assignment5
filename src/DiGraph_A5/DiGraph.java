@@ -107,7 +107,12 @@ public class DiGraph implements DiGraphInterface {
 	@Override
 	public ShortestPathInfo[] shortestPath(String label) {
 		// TODO Auto-generated method stub
-		return null;
+		ShortestPathInfo[] paths = new ShortestPathInfo[(int) this.numNodes()];
+		for(int i =0 ; i <this.numNodes(); i++) {
+			//Use dijkstra's algo in loop - assign each index of path to the correct information!
+			//use priority queues
+		}
+		return paths;
 	}
 
 	// rest of your code to implement the various operations
