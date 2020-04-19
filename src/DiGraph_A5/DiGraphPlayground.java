@@ -1,5 +1,7 @@
 package DiGraph_A5;
 
+import java.util.*;
+
 public class DiGraphPlayground {
 
   public static void main (String[] args) {
@@ -30,7 +32,20 @@ public class DiGraphPlayground {
       d.addEdge(3, "fo", "fi", 0, null);
       d.addEdge(4, "fi", "si", 0, null);
       */
-      d.addNode(3, "s");
+      
+     
+  
+      for(int i =0; i < 500000; i++) {
+    	  String str1 = getAlphaNumericString(5);
+    	  String str2 = getAlphaNumericString(5);
+    	  
+    	  d.addNode(i, str1);
+    	  d.addNode(i*50, str2);
+    	  d.addEdge(i, str1, str2, 0, str1);
+    	 // System.out.println(str);
+    	 
+      }
+      d.addNode(3, "a");
       d.addNode(7, "t");
       d.addNode(0, "fo");
       d.addNode(4, "fi");
@@ -40,8 +55,37 @@ public class DiGraphPlayground {
       d.addEdge(2, "s", "t", 0, null);
       d.addEdge(3, "fo", "fi", 0, null);
       d.addEdge(4, "fi", "si", 0, null);
-      d.delEdge("fi", "si");
+     // d.delEdge("fi", "si");
       System.out.println("numEdges: "+d.numEdges());
       System.out.println("numNodes: "+d.numNodes());
     }
+    static String getAlphaNumericString(int n) 
+    { 
+  
+        // lower limit for LowerCase Letters 
+        int lowerLimit = 97; 
+  
+        // lower limit for LowerCase Letters 
+        int upperLimit = 122; 
+  
+        Random random = new Random(); 
+  
+        // Create a StringBuffer to store the result 
+        StringBuffer r = new StringBuffer(n); 
+  
+        for (int i = 0; i < n; i++) { 
+  
+            // take a random value between 97 and 122 
+            int nextRandomChar = lowerLimit 
+                                 + (int)(random.nextFloat() 
+                                         * (upperLimit - lowerLimit + 1)); 
+  
+            // append a character at the end of bs 
+            r.append((char)nextRandomChar); 
+        } 
+  
+        // return the resultant string 
+        return r.toString(); 
+    } 
+  
 }

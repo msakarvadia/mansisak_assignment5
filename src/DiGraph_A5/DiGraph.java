@@ -3,36 +3,36 @@ package DiGraph_A5;
 import java.util.*;
 
 public class DiGraph implements DiGraphInterface {
-	LinkedList<Long> graphVert_idNums;
-	LinkedList<Long> graphEdge_idNums;
+	HashMap<Long, String> graphEdge_idNums;
 	HashMap<String, DiGraphVertex> graph_vertexs;
+	HashMap<Long, DiGraphVertex> graphVert_idNums;
 	int num_of_edges;
 	// in here go all your data and methods for the graph
 
 	public DiGraph() {
-		graphVert_idNums = new LinkedList<Long>();
-		graphEdge_idNums = new LinkedList<Long>();
+		graphVert_idNums = new HashMap<Long, DiGraphVertex>();
+		graphEdge_idNums = new HashMap<Long, String>();
 		graph_vertexs = new HashMap<String, DiGraphVertex>();
 		num_of_edges = 0;
 	}
 
 	@Override
 	public boolean addNode(long idNum, String label) {
-		if (graphVert_idNums.contains(idNum) || idNum < 0) {
+		if (graphVert_idNums.containsKey(idNum) || idNum < 0) {
 			return false;
 		}
 		if (graph_vertexs.containsKey(label)) {
 			return false;
 		}
 		DiGraphVertex vert = new DiGraphVertex(idNum, label);
-		graphVert_idNums.add(idNum);
+		graphVert_idNums.put(idNum, vert);
 		graph_vertexs.put(label, vert);
 		return true;
 	}
 
 	@Override
 	public boolean addEdge(long idNum, String sLabel, String dLabel, long weight, String eLabel) {
-		if (graphEdge_idNums.contains(idNum) || idNum < 0) {
+		if (graphEdge_idNums.containsKey(idNum) || idNum < 0) {
 			return false;
 		}
 		if (!(graph_vertexs.containsKey(sLabel)) || !(graph_vertexs.containsKey(dLabel))) {
@@ -47,7 +47,7 @@ public class DiGraph implements DiGraphInterface {
 			}
 		}
 		// if we make it this far: add outEdge and inEdge
-		graphEdge_idNums.add(idNum);
+		graphEdge_idNums.put(idNum, eLabel);
 		DiGraphEdge edge = new DiGraphEdge(idNum, sLabel, dLabel, weight, eLabel);
 		graph_vertexs.get(sLabel).addOutEdge(edge);
 		graph_vertexs.get(dLabel).addInEdge(edge);
