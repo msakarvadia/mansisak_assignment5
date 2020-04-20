@@ -152,11 +152,16 @@ public class DiGraph implements DiGraphInterface {
 		for(int i = 0; i < vertex_names.size(); i++) {
 			String name = vertex_names.get(i);
 			Integer distance = dest_dist.get(name);
+			if(distance == Integer.MAX_VALUE) {
+				paths[i] = new ShortestPathInfo(name, -1);
+			}
+			else {
 			paths[i] = new ShortestPathInfo(name, distance);
+			}
 			
 		}
-		System.out.println("Dest_dist map size: "+dest_dist.size());
-		System.out.println("path size: "+this.numNodes());
+		//System.out.println("Dest_dist map size: "+dest_dist.size());
+		//System.out.println("path size: "+this.numNodes());
 		return paths;
 		
 	}
