@@ -108,12 +108,56 @@ public class DiGraph implements DiGraphInterface {
 	public ShortestPathInfo[] shortestPath(String label) {
 		// TODO Auto-generated method stub
 		ShortestPathInfo[] paths = new ShortestPathInfo[(int) this.numNodes()];
-		for(int i =0 ; i <this.numNodes(); i++) {
-			//Use dijkstra's algo in loop - assign each index of path to the correct information!
-			//use priority queues
-		}
-		return paths;
-	}
+		HashMap<String, Integer> dest_dist = new HashMap<String, Integer>();
 
-	// rest of your code to implement the various operations
+		Iterator gv = graph_vertexs.entrySet().iterator();
+		// Initialize the above hashmap with each destination vertex (including src
+		// itself) w/ super high distances from src
+		while (gv.hasNext()) {
+			Map.Entry elt = (Map.Entry) gv.next();
+			dest_dist.put((String) elt.getKey(), Integer.MAX_VALUE);
+		}
+		// TODO create pq and add src to it w/ dist of zero
+		PriorityQueue<Map.Entry<String, Integer>> queue = new PriorityQueue<>((a, b) -> b.getValue() - a.getValue());
+		queue.offer(new AbstractMap.SimpleEntry<>(label, 0));
+		// update dest_best_path for src w/ zero as distance
+		dest_dist.remove(label);
+		dest_dist.put(label, 0);
+		while (!queue.isEmpty()) {
+			Map.Entry<String, Integer> u = queue.remove();
+			LinkedList<DiGraphEdge> out = graph_vertexs.get(u.getKey()).getOutEdges();
+			for (int i = 0; i < out.size(); i++) {
+				DiGraphEdge e = out.get(i);
+				Integer newDist = (int) (dest_dist.get(e.getSLabel()) + e.getWeight());
+				if (dest_dist.get(e.getDLabel()) > newDist) {
+					{
+						dest_dist.remove(e.getDLabel());
+						dest_dist.put(e.getDLabel(),newDist);
+						queue.offer(new AbstractMap.SimpleEntry<>(e.getDLabel(), newDist));
+						
+					}
+				}
+
+			}
+			/*
+			 * TODO: while(!pq.empty()) { u = pq.top().outedges; pq.pop(); for(all adjacent
+			 * vertexts from out edges) { 
+			 * if(adjacent_vert dis > out_edge_weight+u_dist) {
+			 * update hashmap with correst dist of adjacent vert 
+			 * insert adjacent vert into
+			 * pq } } }
+			 */
+			// iterate thru hashmap and add all values to the paths variable
+			Iterator dd = dest_dist.entrySet().iterator();
+			int i = 0;
+			while (dd.hasNext()) {
+				Map.Entry elt = (Map.Entry) dd.next();
+				paths[i] = new ShortestPathInfo((String) elt.getKey(), (long) elt.getValue());
+				i++;
+			}
+			return paths;
+		}
+
+		// rest of your code to implement the various operations
+	}
 }
