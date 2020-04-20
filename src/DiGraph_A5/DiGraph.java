@@ -155,9 +155,9 @@ public class DiGraph implements DiGraphInterface {
 			paths[i] = new ShortestPathInfo(name, distance);
 			
 		}
+		System.out.println("Dest_dist map size: "+dest_dist.size());
+		System.out.println("path size: "+this.numNodes());
 		return paths;
 		
-
-		// rest of your code to implement the various operations
 	}
 }
