@@ -6,6 +6,7 @@ public class DiGraph implements DiGraphInterface {
 	HashMap<Long, String> graphEdge_idNums;
 	HashMap<String, DiGraphVertex> graph_vertexs;
 	HashMap<Long, DiGraphVertex> graphVert_idNums;
+	private LinkedList<String> vertex_names = new LinkedList<String>();
 	int num_of_edges;
 	// in here go all your data and methods for the graph
 
@@ -27,6 +28,7 @@ public class DiGraph implements DiGraphInterface {
 		DiGraphVertex vert = new DiGraphVertex(idNum, label);
 		graphVert_idNums.put(idNum, vert);
 		graph_vertexs.put(label, vert);
+		vertex_names.add(label);
 		return true;
 	}
 
@@ -70,6 +72,7 @@ public class DiGraph implements DiGraphInterface {
 		}
 		graphVert_idNums.remove(graph_vertexs.get(label).getIdNum());
 		graph_vertexs.remove(label);
+		vertex_names.remove(label);
 		return true;
 	}
 
@@ -109,13 +112,10 @@ public class DiGraph implements DiGraphInterface {
 		// TODO Auto-generated method stub
 		ShortestPathInfo[] paths = new ShortestPathInfo[(int) this.numNodes()];
 		HashMap<String, Integer> dest_dist = new HashMap<String, Integer>();
-
-		Iterator gv = graph_vertexs.entrySet().iterator();
 		// Initialize the above hashmap with each destination vertex (including src
 		// itself) w/ super high distances from src
-		while (gv.hasNext()) {
-			Map.Entry elt = (Map.Entry) gv.next();
-			dest_dist.put((String) elt.getKey(), Integer.MAX_VALUE);
+		for(int i = 0; i < vertex_names.size(); i++) {
+			dest_dist.put(vertex_names.get(i), Integer.MAX_VALUE);
 		}
 		// TODO create pq and add src to it w/ dist of zero
 		PriorityQueue<Map.Entry<String, Integer>> queue = new PriorityQueue<>((a, b) -> b.getValue() - a.getValue());
@@ -139,6 +139,7 @@ public class DiGraph implements DiGraphInterface {
 				}
 
 			}
+		}
 			/*
 			 * TODO: while(!pq.empty()) { u = pq.top().outedges; pq.pop(); for(all adjacent
 			 * vertexts from out edges) { 
@@ -148,15 +149,14 @@ public class DiGraph implements DiGraphInterface {
 			 * pq } } }
 			 */
 			// iterate thru hashmap and add all values to the paths variable
-			Iterator dd = dest_dist.entrySet().iterator();
-			int i = 0;
-			while (dd.hasNext()) {
-				Map.Entry elt = (Map.Entry) dd.next();
-				paths[i] = new ShortestPathInfo((String) elt.getKey(), (long) elt.getValue());
-				i++;
-			}
-			return paths;
+		for(int i = 0; i < vertex_names.size(); i++) {
+			String name = vertex_names.get(i);
+			Integer distance = dest_dist.get(name);
+			paths[i] = new ShortestPathInfo(name, distance);
+			
 		}
+		return paths;
+		
 
 		// rest of your code to implement the various operations
 	}
