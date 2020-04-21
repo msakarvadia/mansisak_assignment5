@@ -109,15 +109,14 @@ public class DiGraph implements DiGraphInterface {
 
 	@Override
 	public ShortestPathInfo[] shortestPath(String label) {
-		// TODO Auto-generated method stub
 		ShortestPathInfo[] paths = new ShortestPathInfo[(int) this.numNodes()];
 		HashMap<String, Integer> dest_dist = new HashMap<String, Integer>();
 		// Initialize the above hashmap with each destination vertex (including src
 		// itself) w/ super high distances from src
-		for(int i = 0; i < vertex_names.size(); i++) {
+		for (int i = 0; i < vertex_names.size(); i++) {
 			dest_dist.put(vertex_names.get(i), Integer.MAX_VALUE);
 		}
-		// TODO create pq and add src to it w/ dist of zero
+		// create pq and add src to it w/ dist of zero
 		PriorityQueue<Map.Entry<String, Integer>> queue = new PriorityQueue<>((a, b) -> b.getValue() - a.getValue());
 		queue.offer(new AbstractMap.SimpleEntry<>(label, 0));
 		// update dest_best_path for src w/ zero as distance
@@ -132,37 +131,27 @@ public class DiGraph implements DiGraphInterface {
 				if (dest_dist.get(e.getDLabel()) > newDist) {
 					{
 						dest_dist.remove(e.getDLabel());
-						dest_dist.put(e.getDLabel(),newDist);
+						dest_dist.put(e.getDLabel(), newDist);
 						queue.offer(new AbstractMap.SimpleEntry<>(e.getDLabel(), newDist));
-						
+
 					}
 				}
 
 			}
 		}
-			/*
-			 * TODO: while(!pq.empty()) { u = pq.top().outedges; pq.pop(); for(all adjacent
-			 * vertexts from out edges) { 
-			 * if(adjacent_vert dis > out_edge_weight+u_dist) {
-			 * update hashmap with correst dist of adjacent vert 
-			 * insert adjacent vert into
-			 * pq } } }
-			 */
-			// iterate thru hashmap and add all values to the paths variable
-		for(int i = 0; i < vertex_names.size(); i++) {
+
+		// iterate thru hashmap and add all values to the paths variable
+		for (int i = 0; i < vertex_names.size(); i++) {
 			String name = vertex_names.get(i);
 			Integer distance = dest_dist.get(name);
-			if(distance == Integer.MAX_VALUE) {
+			if (distance == Integer.MAX_VALUE) {
 				paths[i] = new ShortestPathInfo(name, -1);
+			} else {
+				paths[i] = new ShortestPathInfo(name, distance);
 			}
-			else {
-			paths[i] = new ShortestPathInfo(name, distance);
-			}
-			
+
 		}
-		//System.out.println("Dest_dist map size: "+dest_dist.size());
-		//System.out.println("path size: "+this.numNodes());
 		return paths;
-		
+
 	}
 }
